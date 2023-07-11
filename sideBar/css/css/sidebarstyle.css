@@ -1,0 +1,11 @@
+
+.dropdown-icon::after {
+    content: '\f107';
+    font-family: 'FontAwesome';
+    float: right;
+    margin-left: auto;
+}
+
+.dropdown-icon.collapsed::after {
+    content: '\f105';
+}
