@@ -14,24 +14,24 @@ if ($connection->connect_error) {
 }
 
 // Handle POST request to insert new menu item
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['menuLabel']) && isset($_POST['menuLink'])) {
-        $menuLabel = $_POST['menuLabel'];
-        $menuLink = $_POST['menuLink'];
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//     if (isset($_POST['menuLabel']) && isset($_POST['menuLink'])) {
+//         $menuLabel = $_POST['menuLabel'];
+//         $menuLink = $_POST['menuLink'];
 
-        // Perform the database query to insert new menu item
-        $insertQuery = "INSERT INTO menu1 (label, link) VALUES ('$menuLabel', '$menuLink')";
-        $insertResult = $connection->query($insertQuery);
+//         // Perform the database query to insert new menu item
+//         $insertQuery = "INSERT INTO menu1 (label, link) VALUES ('$menuLabel', '$menuLink')";
+//         $insertResult = $connection->query($insertQuery);
 
-        if ($insertResult) {
-            // Return success response
-            echo 'Menu added successfully';
-        } else {
-            // Return error response
-            echo 'Error adding menu';
-        }
-    }
-}
+//         if ($insertResult) {
+//             // Return success response
+//             echo 'Menu added successfully';
+//         } else {
+//             // Return error response
+//             echo 'Error adding menu';
+//         }
+//     }
+// }
 
 // Fetch Menu Items
 $query = "SELECT * FROM menu1";

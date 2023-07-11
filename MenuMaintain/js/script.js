@@ -1,16 +1,31 @@
+
+
+
 $(document).ready(function () {
   // Load menu and submenu data on page load
- // loadMenuItems();
+  // loadMenuItems();
+  // AJAX request to fetch menu items
+
+
+
   loadMenuSubmenuList();
 
   // Add Menu Form Submission
-  $('#addMenuForm').submit(function (e) {
-    e.preventDefault();
 
+
+
+
+  $('.addBtnMenu').click(function (e) {
+    var inputField = document.getElementById("menuLabel");
+    inputField.disabled = true;
+    var inputField = document.getElementById("menuLink");
+    inputField.disabled = true;
     var menuLabel = $('#menuLabel').val();
     var menuLink = $('#menuLink').val();
-
-    // Perform AJAX request to add the menu
+    if (menuLabel=='' || menuLink==''){
+      alert("The Menu Label or Link Fields cannot be Blank ");
+      return;
+    }
     $.ajax({
       type: 'POST',
       url: '/spiritmeaning/MenuMaintain/php/addMenu.php', // Update the path to the PHP file
@@ -21,13 +36,53 @@ $(document).ready(function () {
         $('#menuLink').val('');
 
         // Update the menuList select options
-        updateMenuList(menuLabel, menuLink);
+        //  updateMenuList(menuLabel, menuLink);
+        loadMenuSubmenuList();
+      }
+    });
+  });
+  // Perform AJAX request to add the menu
+
+  $('.deleteBtnMenu').click(function (e) {
+    var menuList = $('#menuList').val();
+
+    $.ajax({
+      type: 'GET',
+      url: '/spiritmeaning/MenuMaintain/php/deleteMenu.php', // Replace 'main.php' with the actual path to your main PHP page
+      data: {
+        menuList: menuList, // Provide the values for the GET parameters
+       
+      },
+      success: function (response) {
+        // Parse the JSON response
+        alert(response);
+        loadMenuSubmenuList();
+
+        // Check if the GET parameters were received successfully
+
+      },
+      error: function (xhr, status, error) {
+        console.log('AJAX error: ' + error);
       }
     });
   });
 
+  // $('.deleteBtnMenu').click(function (e) {
+  //   console.log("HI");
+  //   rowDiv.disabled = true;
 
+  //   // Remove the div element from its parent
 
+  //   // Perform AJAX request to delete the menu
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: '/spiritmeaning/MenuMaintain/php/deleteMenu.php',
+  //     success: function (response) {
+  //       // Refresh menu and submenu list
+  //       loadMenuSubmenuList();
+  //     }
+  //   });
+  // });
   // Add Submenu Form Submission
   $('#addSubmenuForm').submit(function (e) {
     e.preventDefault();
@@ -104,6 +159,31 @@ $(document).ready(function () {
             }
           });
         });
+
+        $(document).on('click', '.deleteMenuBtn', function () {
+          e.preventDefault();
+
+          var menuSelect = $(this).data('menuSelect');
+
+          // Perform AJAX request to delete the menu
+          $.ajax({
+            type: 'GET',
+            url: '/spiritmeaning/MenuMaintain/php/deleteMenu.php',
+            data: { menuSelect: menuSelect },
+            success: function (response) {
+              // Remove the deleted menu from the menuList select options
+
+              removeMenuFromList(menuSelect);
+            }
+          });
+
+
+          function removeMenuFromList(menuLink) {
+            $('#menuList option[value="' + menuSelect + '"]').remove();
+          }
+
+
+        });
       }
     });
 
@@ -111,22 +191,22 @@ $(document).ready(function () {
   }
 
   // Perform AJAX request to fetch menu items
-  $.ajax({
-    type: 'GET',
-    url: '/spiritmeaning/MenuMaintain/php/fetchMenuItems.php', // Update the path to the PHP file
-    success: function (response) {
-      // Parse the JSON response
-      var menuItems = JSON.parse(response);
+  // $.ajax({
+  //   type: 'GET',
+  //   url: '/spiritmeaning/MenuMaintain/php/fetchMenuItems.php', // Update the path to the PHP file
+  //   success: function (response) {
+  //     // Parse the JSON response
+  //     var menuItems = JSON.parse(response);
 
-      // Clear the menu select options
-      // $('#menuList').empty();
+  //     // Clear the menu select options
+  //     // $('#menuList').empty();
 
-      // Loop through the menu items and add them to the select options
-      menuItems.forEach(function (menuItem) {
-        var option = $('<option>').val(menuItem.id).text(menuItem.label);
-        $('#menuList').append(option);
-      });
-    }
-  });
+  //     // Loop through the menu items and add them to the select options
+  //     menuItems.forEach(function (menuItem) {
+  //       var option = $('<option>').val(menuItem.id).text(menuItem.label);
+  //       $('#menuList').append(option);
+  //     });
+  //   }
+  // });
 
 });
