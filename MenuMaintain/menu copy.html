@@ -12,29 +12,6 @@
 
 <body>
   <div class="container">
-    <h1>Add Topic List</h1>
-
-    <!-- Add Menu Form -->
-    <div class="mb-3">
-      <h2>Add Topics</h2>
-      <form id="addTopicForm">
-        <div class="row">
-          <div class="col-md-6">
-            <label for="topicLabel" class="form-label">Topic Label</label>
-            <input type="text" class="form-control" id="topicLabel" >
-          </div>
-          <div class="col-md-6">
-            <label for="topicList" class="form-label">Existing Topics to be Linked with Menus</label>
-            <select class="form-select" id="topicList" required>
-              <!-- Options will be dynamically populated via AJAX -->
-            </select>
-          </div>
-          
-        </div>
-          <button type="submit" class="btn btn-primary addBtnTopic">Add Topic</button>
-          <button class="btn btn-danger deleteBtnTopic">Delete Topic</button>
-      </form>
-
     <h1>Add Menus and Submenus</h1>
 
     <!-- Add Menu Form -->
@@ -44,21 +21,21 @@
         <div class="row">
           <div class="col-md-6">
             <label for="menuLabel" class="form-label">Menu Label</label>
-            <input type="text" class="form-control" id="menuLabel" >
+            <input type="text" class="form-control" id="menuLabel" required>
           </div>
           <div class="col-md-6">
             <label for="menuLink" class="form-label">Menu Link</label>
-            <input type="text" class="form-control" id="menuLink" >
+            <input type="text" class="form-control" id="menuLink" required>
           </div>
           <div class="col-md-6">
             <label for="menuList" class="form-label">Existing Menus to be Linked with SubMenus</label>
-            <select class="form-select" id="menuList" >
+            <select class="form-select" id="menuList" required>
               <!-- Options will be dynamically populated via AJAX -->
             </select>
           </div>
           
         </div>
-          <button class="btn btn-primary addBtnMenu">Add Menu</button>
+          <button type="submit" class="btn btn-primary">Add Menu</button>
           <button class="btn btn-danger deleteBtnMenu">Delete Menu</button>
       </form>
     </div>
@@ -70,15 +47,15 @@
         <div class="row">
           <div class="col-md-6">
             <label for="submenuLabel" class="form-label">Submenu Label</label>
-            <input type="text" class="form-control" id="submenuLabel" >
+            <input type="text" class="form-control" id="submenuLabel" required>
           </div>
           <div class="col-md-6">
             <label for="submenuLink" class="form-label">Submenu Link</label>
-            <input type="text" class="form-control" id="submenuLink" >
+            <input type="text" class="form-control" id="submenuLink" required>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary addBtnSubmenu">Add Submenu</button>
+        <button type="submit" class="btn btn-primary">Add Submenu</button>
       </form>
     </div>
 
@@ -88,7 +65,6 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Topic</th>
             <th>Menu Label</th>
             <th>Menu Link</th>
             <th>Submenu Label</th>

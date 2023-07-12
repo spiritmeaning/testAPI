@@ -3,6 +3,7 @@ if (isset($_POST['submenuLabel']) && isset($_POST['submenuLink']) && isset($_POS
   $submenuLabel = $_POST['submenuLabel'];
   $submenuLink = $_POST['submenuLink'];
   $menuId = $_POST['menuId'];
+  $topicList = $_POST['topicList'];
 
 //   Include your database connection code here
   // Example:
@@ -22,7 +23,7 @@ if (isset($_POST['submenuLabel']) && isset($_POST['submenuLink']) && isset($_POS
 
 //   Perform the database query to add the submenu
 //   Example query:
-  $sql = "INSERT INTO submenu1 (label, link, menu_id) VALUES ('$submenuLabel', '$submenuLink', $menuId)";
+  $sql = "INSERT INTO submenu1 (label, link, menu_id,topic_id) VALUES ('$submenuLabel', '$submenuLink', $menuId, $topicList)";
   $result = $connection->query($sql);
 
   if ($result) {

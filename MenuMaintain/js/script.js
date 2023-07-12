@@ -8,21 +8,86 @@ $(document).ready(function () {
 
 
 
-  loadMenuSubmenuList();
+  // ADD TOPIC  STEP 1
 
-  // Add Menu Form Submission
+  $('.addBtnTopic').click(function (e) {
+
+    var topicLabel = $('#topicLabel').val();
+
+    if (topicLabel == '') {
+      alert("The Topic Label cannot be Blank ");
+      return;
+    }
+    $.ajax({
+      type: 'POST',
+      url: '/spiritmeaning/MenuMaintain/php/addTopic.php', // Update the path to the PHP file
+      data: { topicLabel: topicLabel },
+      success: function (response) {
+        // Clear form fields
+        
+       
+        // Update the menuList select options
+        //  updateMenuList(menuLabel, menuLink);
+
+        loadMenuSubmenuList();
+      }
+    });
+  });
+
+  // DELETE TOPIC  STEP 1
+  $('.deleteBtnTopic').click(function () {
+
+    var topicList = $('#topicList').val();;
+
+    // Perform AJAX request to delete the submenu
+    $.ajax({
+      type: 'GET',
+      url: '/spiritmeaning/MenuMaintain/php/deleteTopic.php', // Update the path to the PHP file
+      data: { topicList: topicList },
+      success: function () {
+        loadMenuSubmenuList();
+      }
+    });
+  });
 
 
+  //LOAD TOPIC STEP 3
+  function loadTopic() {
+    $.ajax({
+      type: 'GET',
+      url: '/spiritmeaning/MenuMaintain/php/fetchTopicItems.php', // Update the path to the PHP file
+      success: function (response) {
+        // Parse the JSON response
+        var topicItems = JSON.parse(response);
 
+        // Clear the menu and submenu list
+        //  $('#menuList').empty();
+
+        // Loop through the menu and submenu data and add rows to the table
+        topicItems.forEach(function (item) {
+         
+          var topicName = item.TopicName;
+          var topicId = item.TopicId;
+       
+          var option = $('<option>').val(topicId).text(topicName);
+
+          // Append the new option to the menuList select element
+          $('#topicList').append(option);
+
+        });
+
+
+      }
+    });
+  }
+
+  // ADD MENU STEP 1
 
   $('.addBtnMenu').click(function (e) {
-    var inputField = document.getElementById("menuLabel");
-    inputField.disabled = true;
-    var inputField = document.getElementById("menuLink");
-    inputField.disabled = true;
+
     var menuLabel = $('#menuLabel').val();
     var menuLink = $('#menuLink').val();
-    if (menuLabel=='' || menuLink==''){
+    if (menuLabel == '' || menuLink == '') {
       alert("The Menu Label or Link Fields cannot be Blank ");
       return;
     }
@@ -32,88 +97,88 @@ $(document).ready(function () {
       data: { menuLabel: menuLabel, menuLink: menuLink },
       success: function (response) {
         // Clear form fields
-        $('#menuLabel').val('');
-        $('#menuLink').val('');
-
+       
+      
         // Update the menuList select options
         //  updateMenuList(menuLabel, menuLink);
+
         loadMenuSubmenuList();
       }
     });
   });
-  // Perform AJAX request to add the menu
 
-  $('.deleteBtnMenu').click(function (e) {
-    var menuList = $('#menuList').val();
+  // DELETE MENU STEP 2
+
+  // Attach event handler for delete buttons
+  $('.deleteBtnMenu').click(function () {
+    var menuList = $('#menuList').val();;
+   
+    // Perform AJAX request to delete the submenu
+    $.ajax({
+      type: 'GET',
+      url: '/spiritmeaning/MenuMaintain/php/deleteMenu.php', // Update the path to the PHP file
+      data: { menuList: menuList },
+      success: function () {
+        loadMenuSubmenuList();
+      }
+    });
+  });
+
+  // LOADMENU STEP 3
+
+  function loadMenu() {
 
     $.ajax({
       type: 'GET',
-      url: '/spiritmeaning/MenuMaintain/php/deleteMenu.php', // Replace 'main.php' with the actual path to your main PHP page
-      data: {
-        menuList: menuList, // Provide the values for the GET parameters
-       
-      },
+      url: '/spiritmeaning/MenuMaintain/php/fetchMenuItems.php', // Update the path to the PHP file
       success: function (response) {
         // Parse the JSON response
-        alert(response);
-        loadMenuSubmenuList();
+        var menuItems = JSON.parse(response);
+        // Loop through the menu and submenu data and add rows to the table
+        menuItems.forEach(function (item) {
+          var menulabel = item.label
+          var menuid = item.id
+     
 
-        // Check if the GET parameters were received successfully
-
-      },
-      error: function (xhr, status, error) {
-        console.log('AJAX error: ' + error);
+          var option = $('<option>').val(menuid).text(menulabel);
+          // Append the new option to the menuList select element
+          $('#menuList').append(option);
+        });
       }
     });
-  });
 
-  // $('.deleteBtnMenu').click(function (e) {
-  //   console.log("HI");
-  //   rowDiv.disabled = true;
 
-  //   // Remove the div element from its parent
+  }
 
-  //   // Perform AJAX request to delete the menu
-  //   $.ajax({
-  //     type: 'GET',
-  //     url: '/spiritmeaning/MenuMaintain/php/deleteMenu.php',
-  //     success: function (response) {
-  //       // Refresh menu and submenu list
-  //       loadMenuSubmenuList();
-  //     }
-  //   });
-  // });
-  // Add Submenu Form Submission
-  $('#addSubmenuForm').submit(function (e) {
-    e.preventDefault();
+   //ADD SUBMENU STEP 1
+  $('.addBtnSubmenu').click(function (e) {
 
     var submenuLabel = $('#submenuLabel').val();
     var submenuLink = $('#submenuLink').val();
-    var menuId = $('#menuList').val();
+    var menuId= $('#menuList').val();
+    var topicList = $('#topicList').val();
+    if (submenuLabel == ''|| submenuLink == ''|| menuId=='') {
+      alert("The Submenu Label or Submenu Link cannot be Blank ");
+      return;
+    }
 
-    // Perform AJAX request to add the submenu
+
     $.ajax({
       type: 'POST',
-      url: '/spiritmeaning/MenuMaintain/php/addSubmenu.php', // Update the path to the PHP file
-      data: { submenuLabel: submenuLabel, submenuLink: submenuLink, menuId: menuId },
+      url: '/spiritmeaning/MenuMaintain/php/addSubMenu.php', // Update the path to the PHP file
+      data: { 
+        submenuLabel: submenuLabel,
+        submenuLink: submenuLink,
+        menuId:menuId,
+        topicList:topicList
+      },
       success: function (response) {
-        // Clear form fields
-        $('#submenuLabel').val('');
-        $('#submenuLink').val('');
+  
 
-        // Refresh menu and submenu list
         loadMenuSubmenuList();
       }
     });
   });
-
-  function updateMenuList(menuLabel, menuLink) {
-    // Create a new option element
-    var option = $('<option>').val(menuLink).text(menuLabel);
-
-    // Append the new option to the menuList select element
-    $('#menuList').append(option);
-  }
 
 
   // Function to load menu and submenu data
@@ -123,6 +188,7 @@ $(document).ready(function () {
       type: 'GET',
       url: '/spiritmeaning/MenuMaintain/php/fetchMenuSubmenu.php', // Update the path to the PHP file
       success: function (response) {
+        
         // Parse the JSON response
         var menuSubmenuData = JSON.parse(response);
 
@@ -131,13 +197,16 @@ $(document).ready(function () {
 
         // Loop through the menu and submenu data and add rows to the table
         menuSubmenuData.forEach(function (item) {
+      
+        
           var row = '<tr>' +
-            '<td>' + item.menuLabel + '</td>' +
-            '<td>' + item.menuLink + '</td>' +
-            '<td>' + item.submenuLabel + '</td>' +
-            '<td>' + item.submenuLink + '</td>' +
+            '<td>' + item.TOPIC + '</td>' +
+            '<td>' + item.MENULABEL + '</td>' +
+            '<td>' + item.MENULINK + '</td>' +
+            '<td>' + item.SUBMENULABEL + '</td>' +
+            '<td>' + item.SUBMENULINK + '</td>' +
             '<td>' +
-            '<button class="btn btn-danger deleteBtn" data-menuid="' + item.menuId + '" data-submenuid="' + item.submenuId + '">Delete</button>' +
+            '<button class="btn btn-danger deleteBtn"  data-menuid="' + item.TOPIC + '" data-menuid="' + item.MENULABEL + '" data-submenuid="' + item.SUBMENULABEL + '">Delete</button>' +
             '</td>' +
             '</tr>';
           $('#menuSubmenuList').append(row);
@@ -145,6 +214,7 @@ $(document).ready(function () {
 
         // Attach event handler for delete buttons
         $('.deleteBtn').click(function () {
+          var topicId = $(this).data('topicId');
           var menuId = $(this).data('menuid');
           var submenuId = $(this).data('submenuid');
 
@@ -152,61 +222,26 @@ $(document).ready(function () {
           $.ajax({
             type: 'POST',
             url: '/spiritmeaning/MenuMaintain/php/deleteSubmenu.php', // Update the path to the PHP file
-            data: { menuId: menuId, submenuId: submenuId },
+            data: { topicId: topicId, menuId: menuId, submenuId: submenuId },
             success: function () {
               // Refresh menu and submenu list
+              loadTopic();
+              loadMenu();
               loadMenuSubmenuList();
             }
           });
-        });
-
-        $(document).on('click', '.deleteMenuBtn', function () {
-          e.preventDefault();
-
-          var menuSelect = $(this).data('menuSelect');
-
-          // Perform AJAX request to delete the menu
-          $.ajax({
-            type: 'GET',
-            url: '/spiritmeaning/MenuMaintain/php/deleteMenu.php',
-            data: { menuSelect: menuSelect },
-            success: function (response) {
-              // Remove the deleted menu from the menuList select options
-
-              removeMenuFromList(menuSelect);
-            }
-          });
-
-
-          function removeMenuFromList(menuLink) {
-            $('#menuList option[value="' + menuSelect + '"]').remove();
-          }
-
-
         });
       }
     });
 
 
+
+
+
   }
+  loadTopic();
+  loadMenu();
+  loadMenuSubmenuList();
 
-  // Perform AJAX request to fetch menu items
-  // $.ajax({
-  //   type: 'GET',
-  //   url: '/spiritmeaning/MenuMaintain/php/fetchMenuItems.php', // Update the path to the PHP file
-  //   success: function (response) {
-  //     // Parse the JSON response
-  //     var menuItems = JSON.parse(response);
-
-  //     // Clear the menu select options
-  //     // $('#menuList').empty();
-
-  //     // Loop through the menu items and add them to the select options
-  //     menuItems.forEach(function (menuItem) {
-  //       var option = $('<option>').val(menuItem.id).text(menuItem.label);
-  //       $('#menuList').append(option);
-  //     });
-  //   }
-  // });
 
 });

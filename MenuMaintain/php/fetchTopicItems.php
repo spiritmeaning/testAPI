@@ -34,24 +34,24 @@ if ($connection->connect_error) {
 // }
 
 // Fetch Menu Items
-$query = "SELECT * FROM menu1";
+$query = "SELECT * FROM topic";
 $result = $connection->query($query);
 
-$menuItems = array();
+$topicItems = array();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $menuItem = array(
-            'id' => $row['id'],
-            'label' => $row['label']
+        $topicItem = array(
+            'TopicId' => $row['TopicId'],
+            'TopicName' => $row['TopicName']
         );
 
-        $menuItems[] = $menuItem;
+        $topicItems[] = $topicItem;
     }
 }
-// Return the menu items as JSON
-echo json_encode($menuItems);
+
 // Close the database connection
 $connection->close();
 
-
+// Return the menu items as JSON
+echo json_encode($topicItems);
 ?>

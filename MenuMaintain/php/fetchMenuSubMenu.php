@@ -17,7 +17,7 @@ if ($connection->connect_error) {
 
 // Perform the database query to fetch menu and submenu data
 // Example query:
-$sql = "SELECT menu1.label AS menuLabel, menu1.link AS menuLink, submenu1.label AS submenuLabel, submenu1.link AS submenuLink, submenu1.menu_id AS menuId, submenu1.id AS submenuId FROM menu1 LEFT JOIN submenu1 ON menu1.id = submenu1.menu_id WHERE submenu1.label IS NOT NULL AND submenu1.link IS NOT NULL";
+$sql = "SELECT  topic.TopicName AS TOPIC ,menu1.label AS MENULABEL, menu1.link AS MENULINK, submenu1.label AS SUBMENULABEL, submenu1.link AS SUBMENULINK FROM topic,menu1,submenu1 where topic.TopicId=submenu1.topic_id and menu1.id=submenu1.menu_id AND submenu1.label IS NOT NULL AND submenu1.link IS NOT NULL AND menu1.link is NOT NULL and menu1.label is not NULL";
 $result = $connection->query($sql);
 
 $menuSubmenuData = [];

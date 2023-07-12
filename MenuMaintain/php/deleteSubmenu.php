@@ -1,5 +1,6 @@
 <?php
-if (isset($_POST['menuId']) && isset($_POST['submenuId'])) {
+if (isset($_POST['menuId']) && isset($_POST['submenuId']) && isset($_POST['topicId'])) {
+  $topicId = $_POST['topicId'];
   $menuId = $_POST['menuId'];
   $submenuId = $_POST['submenuId'];
 
@@ -20,7 +21,7 @@ if (isset($_POST['menuId']) && isset($_POST['submenuId'])) {
 
 //   Perform the database query to delete the submenu
 //   Example query:
-  $sql = "DELETE FROM submenu1 WHERE menu_id = $menuId AND id = $submenuId";
+  $sql = "DELETE FROM submenu1 WHERE topic_id =$topicId AND menu_id = $menuId AND id = $submenuId";
   $result = $connection->query($sql);
 
   if ($result) {

@@ -22,13 +22,13 @@ if (isset($_GET['menuList'])) {
     
     // Delete submenu items first
     
-    $deleteSubmenuQuery = "DELETE FROM submenu1 WHERE menu_id IN (SELECT id FROM menu1 WHERE id = $menuList)";
+    $deleteSubmenuQuery = "DELETE FROM submenu1 WHERE menu_id IN (SELECT id FROM menu1 WHERE id = '$menuList')";
   echo($deleteSubmenuQuery);
     $deleteSubMenuQuerySuccess = $connection->query($deleteSubmenuQuery);
     if ($deleteSubMenuQuerySuccess) {
-      $deleteMenuQuery = "DELETE FROM menu1 WHERE id = $menuList";
-      echo ($deleteMenuQuery);
-      $deleteMenuQuerySuccess = $connection->query($deleteMenuQuery);
+       $deleteMenuQuery = "DELETE FROM menu1 WHERE id = $menuList";
+       $deleteMenuQuerySuccess = $connection->query($deleteMenuQuery);
+        
       if ($deleteMenuQuerySuccess) {
         echo "Row deleted successfully.";
       } else {
