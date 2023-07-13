@@ -23,7 +23,7 @@ if (isset($_GET['menuList'])) {
     // Delete submenu items first
     
     $deleteSubmenuQuery = "DELETE FROM submenu1 WHERE menu_id IN (SELECT id FROM menu1 WHERE id = '$menuList')";
-  echo($deleteSubmenuQuery);
+ 
     $deleteSubMenuQuerySuccess = $connection->query($deleteSubmenuQuery);
     if ($deleteSubMenuQuerySuccess) {
        $deleteMenuQuery = "DELETE FROM menu1 WHERE id = $menuList";
@@ -31,6 +31,7 @@ if (isset($_GET['menuList'])) {
         
       if ($deleteMenuQuerySuccess) {
         echo "Row deleted successfully.";
+          exit;
       } else {
         echo "Error deleting row from the main table: " . $connection->error;
       }
@@ -38,7 +39,7 @@ if (isset($_GET['menuList'])) {
       echo "Error deleting dependent rows: " . $connection->error;
     }
     $connection->close();
-    exit;
+  
   }
 
   // Delete Submenu

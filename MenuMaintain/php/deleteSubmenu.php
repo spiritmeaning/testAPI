@@ -1,8 +1,8 @@
 <?php
-if (isset($_POST['menuId']) && isset($_POST['submenuId']) && isset($_POST['topicId'])) {
-  $topicId = $_POST['topicId'];
-  $menuId = $_POST['menuId'];
-  $submenuId = $_POST['submenuId'];
+if (isset($_POST['topicid']) && isset($_POST['menuid']) && isset($_POST['submenuid'])) {
+  $topicID = $_POST['topicid'];
+  $menuID = $_POST['menuid'];
+  $submenuID = $_POST['submenuid'];
 
   // Include your database connection code here
   // Example:
@@ -18,10 +18,10 @@ if (isset($_POST['menuId']) && isset($_POST['submenuId']) && isset($_POST['topic
   if ($connection->connect_error) {
       die('Connection failed: ' . $connection->connect_error);
   }
-
+  
 //   Perform the database query to delete the submenu
 //   Example query:
-  $sql = "DELETE FROM submenu1 WHERE topic_id =$topicId AND menu_id = $menuId AND id = $submenuId";
+  $sql = "DELETE FROM submenu1 WHERE topic_id =$topicID AND menu_id = $menuID AND id = $submenuID";
   $result = $connection->query($sql);
 
   if ($result) {

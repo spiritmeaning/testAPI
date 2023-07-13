@@ -30,4 +30,7 @@ insert into menu1(label,link,topic_id) values ("MENU1","#",3);
 insert into submenu1(label,link,menu_id,topic_id) values ("SUBMENU1","#",9 ,3);
 SELECT id AS SUBMENUid,     
 
+
+select *  FROM submenu1 WHERE topic_id in (select topicname from topic,submenu1 where submenu1.topic_id=topic.TopicId AND menu_id IN (SELECT label from menu1 where menu_id = $menuId AND id = $submenuId
+
 SELECT  topic.TopicName AS TOPIC ,menu1.label AS MENULABEL, menu1.link AS MENULINK, submenu1.label AS SUBMENULABEL, submenu1.link AS SUBMENULINK FROM topic,menu1,submenu1 where topic.TopicId=submenu1.topic_id and menu1.id=submenu1.menu_id AND submenu1.label IS NOT NULL AND submenu1.link IS NOT NULL AND menu1.link is NOT NULL and menu1.label is not NULL
